@@ -10,7 +10,8 @@ GraphNode::~GraphNode()
 {
     //// STUDENT CODE
     ////
-
+	// Warm up:
+	_chatBot = nullptr;
     delete _chatBot; 
 
     ////

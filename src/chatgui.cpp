@@ -113,12 +113,13 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
 
     // allow for PNG images to be handled
     wxInitAllImageHandlers();
-
+    std::cout<<"CBPD constructor"<<std::endl;
     //// STUDENT CODE
     ////
 
     // create chat logic instance
-    _chatLogic = new ChatLogic(); 
+    // Take: 1
+    _chatLogic = std::make_unique<ChatLogic>(); 
 
     // pass pointer to chatbot dialog so answers can be displayed in GUI
     _chatLogic->SetPanelDialogHandle(this);
@@ -134,9 +135,9 @@ ChatBotPanelDialog::~ChatBotPanelDialog()
 {
     //// STUDENT CODE
     ////
-
-    delete _chatLogic;
-
+    // Take: 1
+    if(_chatLogic != nullptr){_chatLogic = nullptr;}
+    std::cout<<"CBPD delete"<<std::endl;
     ////
     //// EOF STUDENT CODE
 }

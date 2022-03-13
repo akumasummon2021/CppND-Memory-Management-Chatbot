@@ -2,6 +2,7 @@
 #define CHATGUI_H_
 
 #include <wx/wx.h>
+#include <memory>
 
 class ChatLogic; // forward declaration
 
@@ -15,8 +16,8 @@ private:
 
     //// STUDENT CODE
     ////
-
-    ChatLogic *_chatLogic;
+    // Take: 1
+    std::unique_ptr<ChatLogic> _chatLogic;
 
     ////
     //// EOF STUDENT CODE
@@ -27,7 +28,8 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
-    ChatLogic *GetChatLogicHandle() { return _chatLogic; }
+    // Take: 1
+    std::unique_ptr<ChatLogic> GetChatLogicHandle() { return std::move(_chatLogic); }
 
     // events
     void paintEvent(wxPaintEvent &evt);

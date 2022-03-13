@@ -32,18 +32,76 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-    std::cout << "ChatBot Destructor" << std::endl;
-
+	_chatLogic = nullptr;
+	if(_currentNode!=nullptr){
+		std::cout << "ChatBot Destructor, ID:"<<_currentNode->GetID()<< std::endl;	
+	}
+	else{
+		std::cout << "ChatBot Destructor, ID:"<<-10<< std::endl;	
+	}
+    
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
-    {
+    {		
         delete _image;
         _image = NULL;
+		std::cout << "ChatBot has image" << std::endl;		
     }
+    std::cout << "ChatBot Destructor finished" << std::endl;	
 }
 
 //// STUDENT CODE
 ////
+
+// Copy constructor
+ChatBot::ChatBot(ChatBot &obj)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+	//if (this == &obj) {return *this;}
+    *_chatLogic = *(obj._chatLogic);
+    *_rootNode = *(obj._rootNode);
+    *_image = *(obj._image);
+}
+
+// Copy constructor, overload "=" Symbol
+ChatBot& ChatBot::operator=(const ChatBot& obj)
+{
+    std::cout << "ChatBot Copy Symbol '=' overload" << std::endl;
+	if (this == &obj) {return *this;}
+    *_chatLogic = *(obj._chatLogic);
+    *_rootNode = *(obj._rootNode);
+    *_image = *(obj._image);
+    return *this;
+}
+
+// Move constructor
+ChatBot::ChatBot(ChatBot &&obj)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+    
+    // invalidate data handles
+    *_chatLogic = *(obj._chatLogic);
+    *_rootNode = *(obj._rootNode);
+    *_image = *(obj._image);
+	obj._chatLogic = nullptr;	
+	obj._rootNode = nullptr;	
+	obj._image = nullptr;
+}
+
+// Move constructor, overload "=" Symbol
+ChatBot& ChatBot::operator=(ChatBot&& obj)
+{
+    std::cout << "ChatBot Move Symbol '=' overload" << std::endl;
+    
+    // invalidate data handles
+    *_chatLogic = *(obj._chatLogic);
+    *_rootNode = *(obj._rootNode);
+    *_image = *(obj._image);
+	obj._chatLogic = nullptr;	
+	obj._rootNode = nullptr;	
+	obj._image = nullptr;	
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
