@@ -29,7 +29,7 @@ public:
 
     // getter / setter
     // Take: 1
-    std::unique_ptr<ChatLogic> GetChatLogicHandle() { return std::move(_chatLogic); }
+    ChatLogic* GetChatLogicHandle() { return _chatLogic.get(); }
 
     // events
     void paintEvent(wxPaintEvent &evt);

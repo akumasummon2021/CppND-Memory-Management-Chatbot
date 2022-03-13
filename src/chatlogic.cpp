@@ -75,6 +75,7 @@ void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T 
 
 void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 {
+	std::cout<<"ChatLogic::LoadAnswerGraphFromFile begins"<<std::endl;
     // load file with answer graph elements
     std::ifstream file(filename);
 
@@ -194,7 +195,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
         std::cout << "File could not be opened!" << std::endl;
         return;
     }
-
     //// STUDENT CODE
     ////
 
@@ -213,8 +213,8 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
             else
             {
                 std::cout << "ERROR : Multiple root nodes detected" << std::endl;
-            }
-        }
+            }			
+        }				
     }
 
     // add chatbot to graph root node
@@ -223,11 +223,14 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     
     ////
     //// EOF STUDENT CODE
+	std::cout<<"ChatLogic::LoadAnswerGraphFromFile ends"<<std::endl;
 }
 
 void ChatLogic::SetPanelDialogHandle(ChatBotPanelDialog *panelDialog)
 {
+	std::cout<<"ChatLogic::SetPanelDialogHandle begins"<<std::endl;
     _panelDialog = panelDialog;
+	std::cout<<"ChatLogic::SetPanelDialogHandle ends"<<std::endl;
 }
 
 void ChatLogic::SetChatbotHandle(ChatBot *chatbot)
