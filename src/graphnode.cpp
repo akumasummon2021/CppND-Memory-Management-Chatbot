@@ -15,7 +15,7 @@ GraphNode::~GraphNode()
     ////
 	// Warm up:
 	_chatBot = nullptr;
-    delete _chatBot; 
+	delete _chatBot; 
 
     ////
     //// EOF STUDENT CODE
@@ -26,25 +26,25 @@ void GraphNode::AddToken(std::string token)
     _answers.push_back(token);
 }
 
-void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
+void GraphNode::AddEdgeToParentNode(GraphEdge* edge)
 {
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
+void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge) noexcept
 {
-    _childEdges.push_back(edge);
+    _childEdges.push_back(std::move(edge));
 }
 
 //// STUDENT CODE
 ////
 void GraphNode::MoveChatbotHere(ChatBot *chatbot)
 {
-	std::cout<<"GraphNode::MoveChatbotHere begins"<<std::endl;	
+	//std::cout<<"GraphNode::MoveChatbotHere begins"<<std::endl;	
     _chatBot = chatbot;
-	std::cout<<"GraphNode::MoveChatbotHere middle"<<std::endl;	
+	//std::cout<<"GraphNode::MoveChatbotHere middle"<<std::endl;	
     _chatBot->SetCurrentNode(this);
-	std::cout<<"GraphNode::MoveChatbotHere ends"<<std::endl;	
+	//std::cout<<"GraphNode::MoveChatbotHere ends"<<std::endl;	
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
