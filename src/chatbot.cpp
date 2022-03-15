@@ -57,10 +57,16 @@ ChatBot::~ChatBot()
 ChatBot::ChatBot(ChatBot &obj)
 {
     std::cout << "ChatBot Copy Constructor" << std::endl;
-	//if (this == &obj) {return *this;}
-    *_chatLogic = *(obj._chatLogic);
-    *_rootNode = *(obj._rootNode);
-    *_image = *(obj._image);
+	
+	_image = new wxBitmap();
+	_image = obj._image;	
+	//_currentNode = new GraphNode();
+    _currentNode = obj._currentNode;
+	//_rootNode = new GraphNode();
+    _rootNode = obj._rootNode;
+	_chatLogic = new ChatLogic();
+    _chatLogic = obj._chatLogic;	
+	_chatLogic->SetChatbotHandle(this);
 }
 
 // Copy constructor, overload "=" Symbol
@@ -68,9 +74,21 @@ ChatBot& ChatBot::operator=(const ChatBot& obj)
 {
     std::cout << "ChatBot Copy Symbol '=' overload" << std::endl;
 	if (this == &obj) {return *this;}
-    *_chatLogic = *(obj._chatLogic);
-    *_rootNode = *(obj._rootNode);
-    *_image = *(obj._image);
+
+	delete _image;
+	delete _currentNode;
+	delete _rootNode;
+	delete _chatLogic;	
+	//_image = new wxBitmap();
+	_image = obj._image;	
+	//_currentNode = new GraphNode();
+    _currentNode = obj._currentNode;
+	//_rootNode = new GraphNode();
+    _rootNode = obj._rootNode;
+	//_chatLogic = new ChatLogic();
+    _chatLogic = obj._chatLogic;	
+	_chatLogic->SetChatbotHandle(this);
+	
     return *this;
 }
 
@@ -80,9 +98,13 @@ ChatBot::ChatBot(ChatBot &&obj)
     std::cout << "ChatBot Move Constructor" << std::endl;
     
     // invalidate data handles
-    *_chatLogic = *(obj._chatLogic);
-    *_rootNode = *(obj._rootNode);
-    *_image = *(obj._image);
+    _chatLogic = obj._chatLogic;
+	_currentNode = obj._currentNode;
+    _rootNode = obj._rootNode;
+    _image = obj._image;
+	_chatLogic->SetChatbotHandle(this);
+	
+	obj._currentNode = nullptr;
 	obj._chatLogic = nullptr;	
 	obj._rootNode = nullptr;	
 	obj._image = nullptr;
@@ -92,11 +114,15 @@ ChatBot::ChatBot(ChatBot &&obj)
 ChatBot& ChatBot::operator=(ChatBot&& obj)
 {
     std::cout << "ChatBot Move Symbol '=' overload" << std::endl;
-    
+    if(this == &obj) { return *this; }
     // invalidate data handles
-    *_chatLogic = *(obj._chatLogic);
-    *_rootNode = *(obj._rootNode);
-    *_image = *(obj._image);
+    _chatLogic = obj._chatLogic;
+	_currentNode = obj._currentNode;
+    _rootNode = obj._rootNode;
+    _image = obj._image;
+	_chatLogic->SetChatbotHandle(this);
+	
+	obj._currentNode = nullptr;
 	obj._chatLogic = nullptr;	
 	obj._rootNode = nullptr;	
 	obj._image = nullptr;	
