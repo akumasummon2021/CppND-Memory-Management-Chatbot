@@ -17,12 +17,6 @@ ChatLogic::ChatLogic()
 {
     //// STUDENT CODE
     ////
-	std::cout<<"ChatLogic construtor"<<std::endl;	
-    // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
-
-    // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
 
     ////
     //// EOF STUDENT CODE
@@ -35,23 +29,19 @@ ChatLogic::~ChatLogic()
 
     // delete chatbot instance
 	_panelDialog = nullptr;	
-	//std::cout<<"ChatLogic delete"<<std::endl;	
     delete _chatBot;
-	//std::cout<<"ChatLogic delete before nodes-delete"<<std::endl;
     // delete all nodes
     for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
     {
 		if (*it != nullptr) {*it = nullptr;}
         //delete *it;
     }
-	//std::cout<<"ChatLogic delete before edags-delete"<<std::endl;
     // delete all edges
     for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
     {
         if (*it != nullptr) {*it = nullptr;}
 		//delete *it;
     }
-	//std::cout<<"ChatLogic delete finished"<<std::endl;
     ////
     //// EOF STUDENT CODE
 }
@@ -78,7 +68,6 @@ void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T 
 
 void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 {
-	std::cout<<"ChatLogic::LoadAnswerGraphFromFile begins"<<std::endl;
     // load file with answer graph elements
     std::ifstream file(filename);
 
@@ -221,13 +210,17 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
         }				
     }
 
+    _chatBot = new ChatBot("../images/chatbot.png");
+    _chatBot->SetChatLogicHandle(this);
+
     // add chatbot to graph root node
     _chatBot->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(_chatBot);
+    rootNode->MoveChatbotHere(new ChatBot(std::move(*_chatBot)));
+	
+	std::cout<<"load is finished"<<std::endl;
     
     ////
     //// EOF STUDENT CODE
-	std::cout<<"ChatLogic::LoadAnswerGraphFromFile ends"<<std::endl;
 }
 
 void ChatLogic::SetPanelDialogHandle(ChatBotPanelDialog *panelDialog)

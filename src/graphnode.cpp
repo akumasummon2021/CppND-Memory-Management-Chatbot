@@ -38,19 +38,34 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 
 //// STUDENT CODE
 ////
-void GraphNode::MoveChatbotHere(ChatBot *chatbot)
-{
-	//std::cout<<"GraphNode::MoveChatbotHere begins"<<std::endl;	
-    _chatBot = chatbot;
-	//std::cout<<"GraphNode::MoveChatbotHere middle"<<std::endl;	
+void GraphNode::MoveChatbotHere(ChatBot* chatbot)
+{   /*
+	std::cout<<"GraphNode::MoveChatbotHere begins"<<std::endl;
+
+	if (_chatBot == nullptr){
+		std::cout<<"before: _chatbot is nullptr"<<std::endl;
+	}	
+	if (chatbot != nullptr){
+		std::cout<<"before: chatbot has date"<<std::endl;
+	}	
+*/
+	*_chatBot = std::move(*chatbot);
+/*
+	if (_chatBot != nullptr){
+		std::cout<<"After: _chatbot has date"<<std::endl;
+	}	
+	if (chatbot == nullptr){
+		std::cout<<"After: chatbot clear"<<std::endl;
+	}	
+*/
     _chatBot->SetCurrentNode(this);
-	//std::cout<<"GraphNode::MoveChatbotHere ends"<<std::endl;	
+
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
-    newNode->MoveChatbotHere(_chatBot);
-    _chatBot = nullptr; // invalidate pointer at source
+    newNode->MoveChatbotHere(new ChatBot(std::move(*_chatBot)));
+    //_chatBot = nullptr; // invalidate pointer at source
 }
 ////
 //// EOF STUDENT CODE

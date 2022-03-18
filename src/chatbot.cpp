@@ -32,22 +32,13 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-	_chatLogic = nullptr;
-	if(_currentNode!=nullptr){
-		std::cout << "ChatBot Destructor, ID:"<<_currentNode->GetID()<< std::endl;	
-	}
-	else{
-		std::cout << "ChatBot Destructor, ID:"<<-10<< std::endl;	
-	}
-    
+	std::cout << "ChatBot Destructor"<< std::endl;	
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {		
         delete _image;
         _image = NULL;
-		std::cout << "ChatBot has image" << std::endl;		
     }
-    std::cout << "ChatBot Destructor finished" << std::endl;	
 }
 
 //// STUDENT CODE
@@ -72,20 +63,20 @@ ChatBot::ChatBot(ChatBot &obj)
 // Copy constructor, overload "=" Symbol
 ChatBot& ChatBot::operator=(const ChatBot& obj)
 {
-    std::cout << "ChatBot Copy Symbol '=' overload" << std::endl;
+    std::cout << "Copy Assignment Operator" << std::endl;
 	if (this == &obj) {return *this;}
 
-	delete _image;
+    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    {		
+        delete _image;
+        _image = NULL;
+    }
 	delete _currentNode;
 	delete _rootNode;
 	delete _chatLogic;	
-	//_image = new wxBitmap();
 	_image = obj._image;	
-	//_currentNode = new GraphNode();
     _currentNode = obj._currentNode;
-	//_rootNode = new GraphNode();
     _rootNode = obj._rootNode;
-	//_chatLogic = new ChatLogic();
     _chatLogic = obj._chatLogic;	
 	_chatLogic->SetChatbotHandle(this);
 	
@@ -107,25 +98,45 @@ ChatBot::ChatBot(ChatBot &&obj)
 	obj._currentNode = nullptr;
 	obj._chatLogic = nullptr;	
 	obj._rootNode = nullptr;	
-	obj._image = nullptr;
+    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    {		
+        delete _image;
+        _image = NULL;
+    }
+    std::cout << "ChatBot Move Constructor finished" << std::endl;	
 }
 
 // Move constructor, overload "=" Symbol
-ChatBot& ChatBot::operator=(ChatBot&& obj)
+ChatBot& ChatBot::operator=(ChatBot &&obj)
 {
-    std::cout << "ChatBot Move Symbol '=' overload" << std::endl;
-    if(this == &obj) { return *this; }
+    std::cout << "Move Assignment Operator" << std::endl;
+    if(this == &obj) 
+	{ 
+		std::cout << "Move Assignment Operator return this" << std::endl;
+		return *this; 
+	}
+	//std::cout << "Move Assignment Operator 2" << std::endl;
     // invalidate data handles
-    _chatLogic = obj._chatLogic;
 	_currentNode = obj._currentNode;
-    _rootNode = obj._rootNode;
+	//std::cout << "Move Assignment Operator 3" << std::endl;
     _image = obj._image;
+	//std::cout << "Move Assignment Operator 4" << std::endl;
+    _rootNode = obj._rootNode;
+	//std::cout << "Move Assignment Operator 5" << std::endl;
+    _chatLogic = obj._chatLogic;
+	//std::cout << "Move Assignment Operator set CBH" << std::endl;
 	_chatLogic->SetChatbotHandle(this);
-	
+	//std::cout << "Move Assignment Operator middle finished" << std::endl;
 	obj._currentNode = nullptr;
 	obj._chatLogic = nullptr;	
 	obj._rootNode = nullptr;	
-	obj._image = nullptr;	
+	std::cout << "Move Assignment Operator clean up" << std::endl;
+    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    {		
+        delete _image;
+        _image = NULL;
+    }
+    std::cout << "Move Assignment Operator finished" << std::endl;	
     return *this;
 }
 
@@ -168,7 +179,6 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 
 void ChatBot::SetCurrentNode(GraphNode *node)
 {
-	std::cout<<"ChatBot::SetCurrentNode begins"<<std::endl;	
     // update pointer to current node
     _currentNode = node;
 
@@ -177,11 +187,9 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     std::mt19937 generator(int(std::time(0)));
     std::uniform_int_distribution<int> dis(0, answers.size() - 1);
     std::string answer = answers.at(dis(generator));
-	
-	std::cout<<"ChatBot::SetCurrentNode before SendMessageToUser"<<std::endl;	
+		
     // send selected node answer to user
     _chatLogic->SendMessageToUser(answer);
-	std::cout<<"ChatBot::SetCurrentNode ends"<<std::endl;	
 }
 
 int ChatBot::ComputeLevenshteinDistance(std::string s1, std::string s2)
