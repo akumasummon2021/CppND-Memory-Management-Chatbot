@@ -45,36 +45,26 @@ ChatBot::~ChatBot()
 ////
 
 // Copy constructor
-ChatBot::ChatBot(ChatBot &obj)
+ChatBot::ChatBot(const ChatBot &obj)
 {
     std::cout << "ChatBot Copy Constructor" << std::endl;
 	
 	_image = new wxBitmap();
-	_image = obj._image;	
-	//_currentNode = new GraphNode();
+	*_image = *obj._image;	
     _currentNode = obj._currentNode;
-	//_rootNode = new GraphNode();
     _rootNode = obj._rootNode;
-	_chatLogic = new ChatLogic();
     _chatLogic = obj._chatLogic;	
 	_chatLogic->SetChatbotHandle(this);
 }
 
 // Copy constructor, overload "=" Symbol
-ChatBot& ChatBot::operator=(const ChatBot& obj)
+ChatBot& ChatBot::operator=(const ChatBot &obj)
 {
-    std::cout << "Copy Assignment Operator" << std::endl;
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
 	if (this == &obj) {return *this;}
 
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
-    {		
-        delete _image;
-        _image = NULL;
-    }
-	delete _currentNode;
-	delete _rootNode;
-	delete _chatLogic;	
-	_image = obj._image;	
+	_image = new wxBitmap();
+	*_image = *obj._image;	
     _currentNode = obj._currentNode;
     _rootNode = obj._rootNode;
     _chatLogic = obj._chatLogic;	
@@ -88,21 +78,17 @@ ChatBot::ChatBot(ChatBot &&obj)
 {
     std::cout << "ChatBot Move Constructor" << std::endl;
     
-    // invalidate data handles
-    _chatLogic = obj._chatLogic;
+    // invalidate data handles    
+	_image = obj._image;
 	_currentNode = obj._currentNode;
-    _rootNode = obj._rootNode;
-    _image = obj._image;
+    _rootNode = obj._rootNode;;
+	_chatLogic = obj._chatLogic;
 	_chatLogic->SetChatbotHandle(this);
 	
 	obj._currentNode = nullptr;
 	obj._chatLogic = nullptr;	
 	obj._rootNode = nullptr;	
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
-    {		
-        delete _image;
-        _image = NULL;
-    }
+	obj._image = NULL;
     std::cout << "ChatBot Move Constructor finished" << std::endl;	
 }
 
@@ -115,27 +101,19 @@ ChatBot& ChatBot::operator=(ChatBot &&obj)
 		std::cout << "Move Assignment Operator return this" << std::endl;
 		return *this; 
 	}
-	//std::cout << "Move Assignment Operator 2" << std::endl;
-    // invalidate data handles
+
 	_currentNode = obj._currentNode;
-	//std::cout << "Move Assignment Operator 3" << std::endl;
     _image = obj._image;
-	//std::cout << "Move Assignment Operator 4" << std::endl;
     _rootNode = obj._rootNode;
-	//std::cout << "Move Assignment Operator 5" << std::endl;
     _chatLogic = obj._chatLogic;
-	//std::cout << "Move Assignment Operator set CBH" << std::endl;
 	_chatLogic->SetChatbotHandle(this);
-	//std::cout << "Move Assignment Operator middle finished" << std::endl;
+	
+	
 	obj._currentNode = nullptr;
 	obj._chatLogic = nullptr;	
 	obj._rootNode = nullptr;	
 	std::cout << "Move Assignment Operator clean up" << std::endl;
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
-    {		
-        delete _image;
-        _image = NULL;
-    }
+	_image = NULL;
     std::cout << "Move Assignment Operator finished" << std::endl;	
     return *this;
 }
