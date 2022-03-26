@@ -34,6 +34,8 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
+	//std::cout << "ChatBot Destructor begins"<< std::endl;	
+	if (_currentNode != nullptr) std::cout<<" _currentNode ID: "<<_currentNode->GetID()<<std::endl;
 	_chatLogic = nullptr;
 	_rootNode = nullptr;
 	_currentNode = nullptr;

@@ -34,8 +34,9 @@ ChatLogic::~ChatLogic()
     ////
 
     // delete chatbot instance
+	//std::cout<<"ChatLogic delete begins"<<std::endl;	
 	_panelDialog = nullptr;	
-	//std::cout<<"ChatLogic delete"<<std::endl;	
+	
     //delete _chatBot;
 	//std::cout<<"ChatLogic delete before nodes-delete"<<std::endl;
     // delete all nodes

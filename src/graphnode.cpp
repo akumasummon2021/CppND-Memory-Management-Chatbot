@@ -16,7 +16,7 @@ GraphNode::~GraphNode()
 	// Warm up:
 	//_chatBot = nullptr;
 	//delete _chatBot; 
-
+	//std::cout << "GraphNode Destructor finished, ID: "<<_id << std::endl;	
     ////
     //// EOF STUDENT CODE
 }
