@@ -29,7 +29,7 @@ public:
 
     //// STUDENT CODE
     ////
-	ChatBot(ChatBot &obj);	
+	ChatBot(const ChatBot &obj);	
 	ChatBot(ChatBot &&obj);
     ChatBot &operator=(const ChatBot& obj);
     ChatBot &operator=(ChatBot&& obj);

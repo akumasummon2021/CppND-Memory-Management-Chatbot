@@ -17,7 +17,7 @@ ChatLogic::ChatLogic()
 {
     //// STUDENT CODE
     ////
-	
+	std::cout << "ChatLogic Constructor" << std::endl;
     // create instance of chatbot
     //_chatBot = new ChatBot("../images/chatbot.png");
 
@@ -45,14 +45,7 @@ ChatLogic::~ChatLogic()
 		if (*it != nullptr) {*it = nullptr;}
         //delete *it;
     }
-	//std::cout<<"ChatLogic delete before edags-delete"<<std::endl;
-    // delete all edges
-    for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    {
-        if (*it != nullptr) {*it = nullptr;}
-		//delete *it;
-    }
-	//std::cout<<"ChatLogic delete finished"<<std::endl;
+
     ////
     //// EOF STUDENT CODE
 }
@@ -170,7 +163,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 							std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
                             edge->SetChildNode(childNode->get());
                             edge->SetParentNode(parentNode->get());
-                            _edges.push_back(edge.get());
+                            //_edges.push_back(edge.get());
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
@@ -222,7 +215,11 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 	
 	ChatBot cb("../images/chatbot.png");
-    cb.SetChatLogicHandle(this);	
+    cb.SetChatLogicHandle(this);
+	/*
+	ChatBot cb2(cb);
+	ChatBot cb3("../images/chatbot.png");
+	cb3 = cb2;*/
 
     // add chatbot to graph root node
     cb.SetRootNode(rootNode);
